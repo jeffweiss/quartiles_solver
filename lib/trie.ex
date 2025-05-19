@@ -11,10 +11,9 @@ defmodule QuartilesSolver.Trie do
 
   @spec lookup(trie(), String.t() | search_path()) :: :not_found | payload()
   def lookup(trie, word) when is_binary(word), do: lookup(trie, String.to_charlist(word))
-  def lookup(nil, _), do: :not_found
   def lookup({:none, _}, []), do: :not_found
   def lookup({{:some, x}, _}, []), do: x
-  def lookup({_trie, m}, [k | ks]), do: lookup(Map.get(m, k), ks)
+  def lookup({_trie, m}, [k | ks]), do: lookup(Map.get(m, k, @empty), ks)
 
   @spec bind(trie(), String.t() | search_path(), payload()) :: trie()
   def bind(trie, path, payload) when is_binary(path) do
